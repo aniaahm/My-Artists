@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Artist Collection — Personal Archive</title>
+  <!-- Google Fonts: Playfair Display (Serif) & Inter (Sans-Serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* -----------------------------------------------------------------
+       1. VISUAL SYSTEM & DESIGN TOKENS
+    ----------------------------------------------------------------- */
+    :root {
+      --bg-cream: #FDFBF7;
+      --bg-surface: #FFFFFF;
+      --bg-accent-soft: #F7F3EE;
+      --text-main: #2C2A29;
+      --text-muted: #8C857B;
+      --accent-blush: #F4E8E5;
+      --accent-blush-hover: #EBDAD6;
+      --accent-rose: #D98A8A;
+      --accent-sage: #8A9A86;
+      --accent-slate: #5A7B8C;
+      --border-light: rgba(220, 214, 204, 0.45);
+      --border-focus: #C4B9AA;
+      --shadow-subtle: 0 4px 20px rgba(44, 42, 41, 0.04);
+      --shadow-hover: 0 10px 25px rgba(44, 42, 41, 0.08);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* -----------------------------------------------------------------
+       2. TYPOGRAPHY & COMMON UI ELEMENTS
+    ----------------------------------------------------------------- */
+    h1, h2, h3, .serif-text {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      color: var(--text-main);
+    }
+
+    button {
+      font-family: var(--font-sans);
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: inherit;
+      transition: all 0.25s var(--transition-smooth);
+    }
+
+    input, textarea, select {
+      font-family: var(--font-sans);
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-slate);
+      color: #FFFFFF;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: var(--accent-blush);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--accent-blush-hover);
+    }
+
+    .sparkle {
+      display: inline-block;
+      color: var(--accent-rose);
+      opacity: 0.7;
+    }
+
+    /* -----------------------------------------------------------------
+       3. SPLASH / OPENING SCREEN
+    ----------------------------------------------------------------- */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background-color: var(--bg-cream);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+      transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+    }
+
+    #splash-screen.hidden {
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+    }
+
+    .splash-content {
+      position: relative;
+      max-width: 480px;
+    }
+
+    .splash-decorations {
+      position: absolute;
+      inset: -30px;
+      pointer-events: none;
+    }
+
+    .decor-item {
+      position: absolute;
+      font-size: 1.2rem;
+      opacity: 0.5;
+      animation: float 4s ease-in-out infinite alternate;
+    }
+
+    .decor-1 { top: 0; left: 10%; animation-delay: 0s; }
+    .decor-2 { top: 20%; right: 5%; animation-delay: 1s; }
+    .decor-3 { bottom: 10%; left: 15%; animation-delay: 2s; }
+    .decor-4 { bottom: 5%; right: 20%; animation-delay: 1.5s; }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-8px) rotate(6deg); }
+    }
+
+    .splash-title {
+      font-size: 3.2rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+
+    .splash-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 48px;
+    }
+
+    .tap-trigger {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      cursor: pointer;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.85; }
+    }
+
+    /* -----------------------------------------------------------------
+       4. MAIN APP CONTAINER & NAVIGATION
+    ----------------------------------------------------------------- */
+    #main-app {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+      min-height: 100vh;
+    }
+
+    #main-app.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 0 30px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 32px;
+    }
+
+    .logo-area {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-link.active {
+      color: var(--text-main);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background-color: var(--accent-rose);
+    }
+
+    /* -----------------------------------------------------------------
+       5. COLLECTION VIEW & CATEGORY SIDEBAR
+    ----------------------------------------------------------------- */
+    .view-container {
+      display: none;
+    }
+
+    .view-container.active {
+      display: block;
+    }
+
+    .collection-layout {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 40px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
+    }
+
+    /* Photocard Component (Minimal Editorial Style) */
+    .photocard {
+      background-color: var(--bg-surface);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      box-shadow: var(--shadow-subtle);
+      border: 1px solid var(--border-light);
+      transition: transform 0.3s var(--transition-smooth), box-shadow 0.3s var(--transition-smooth);
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .photocard:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-photo-wrapper {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 12px;
+      background-color: var(--bg-accent-soft);
+    }
+
+    .card-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s var(--transition-smooth);
+    }
+
+    .photocard:hover .card-photo {
+      transform: scale(1.03);
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 2px;
+    }
+
+    .card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .card-name {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .card-category {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .fav-btn {
+      color: #CCC;
+      font-size: 1.1rem;
+      padding: 2px;
+    }
+
+    .fav-btn.active {
+      color: var(--accent-rose);
+    }
+
+    /* Categories Sidebar */
+    .categories-sidebar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      height: fit-content;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .sidebar-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .category-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .category-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .category-item:hover, .category-item.active {
+      background-color: var(--bg-accent-soft);
+    }
+
+    .category-item.active {
+      font-weight: 500;
+      border-left: 2px solid var(--accent-slate);
+    }
+
+    .category-actions {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .category-item:hover .category-actions {
+      opacity: 1;
+    }
+
+    .sidebar-footer-note {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border-light);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* -----------------------------------------------------------------
+       6. ARTIST PROFILE / JOURNAL PAGE (NOTION-INSPIRED)
+    ----------------------------------------------------------------- */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+
+    .back-btn:hover {
+      color: var(--text-main);
+    }
+
+    .profile-header {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 32px;
+    }
+
+    .profile-photo {
+      width: 140px;
+      height: 175px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      box-shadow: var(--shadow-subtle);
+      border: 1px solid var(--border-light);
+    }
+
+    .profile-details {
+      flex: 1;
+    }
+
+    .profile-name {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+
+    .profile-tag {
+      display: inline-block;
+      background-color: var(--accent-blush);
+      color: var(--text-main);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 12px;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Notion-like Collapsible Sections */
+    .journal-section {
+      border-bottom: 1px solid var(--border-light);
+      padding: 18px 0;
+    }
+
+    .section-toggle {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      font-size: 1.15rem;
+      font-family: var(--font-serif);
+      color: var(--text-main);
+    }
+
+    .toggle-icon {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: transform 0.3s var(--transition-smooth);
+    }
+
+    .journal-section.open .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .section-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s var(--transition-smooth), opacity 0.35s var(--transition-smooth), padding 0.35s ease;
+      opacity: 0;
+    }
+
+    .journal-section.open .section-content {
+      max-height: 1000px;
+      opacity: 1;
+      padding-top: 16px;
+    }
+
+    .editable-text {
+      color: var(--text-main);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      min-height: 24px;
+    }
+
+    .editable-text[contenteditable="true"]:focus {
+      outline: 1px solid var(--border-focus);
+      background-color: var(--bg-surface);
+      border-radius: 4px;
+      padding: 6px;
+    }
+
+    .quote-block {
+      border-left: 2px solid var(--accent-rose);
+      padding-left: 16px;
+      margin: 12px 0;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    /* Discovery Card Sub-component */
+    .discovery-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      width: fit-content;
+      box-shadow: var(--shadow-subtle);
+      margin-top: 12px;
+    }
+
+    .discovery-poster {
+      width: 48px;
+      height: 64px;
+      border-radius: 4px;
+      object-fit: cover;
+      background-color: var(--bg-accent-soft);
+    }
+
+    .discovery-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .discovery-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .discovery-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .discovery-search-box {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .discovery-search-box input {
+      border: 1px solid var(--border-light);
+      background: var(--bg-surface);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      width: 260px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================================================================
+       OPENING / SPLASH SCREEN
+  ==================================================================== -->
+  <div id="splash-screen">
+    <div class="splash-content">
+      <div class="splash-decorations">
+        <span class="decor-item decor-1">✦</span>
+        <span class="decor-item decor-2">♡</span>
+        <span class="decor-item decor-3">✧</span>
+        <span class="decor-item decor-4">✩</span>
+      </div>
+      <h1 class="splash-title">artist collection</h1>
+      <p class="splash-subtitle">a little place to keep the artists who became part of your life.</p>
+      <div class="tap-trigger" id="enter-btn">— tap to enter —</div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MAIN WEBSITE INTERFACE
+  ==================================================================== -->
+  <div id="main-app">
+    
+    <!-- Header / Navigation -->
+    <header>
+      <div class="logo-area" id="brand-logo">artist collection</div>
+      <nav class="nav-tabs">
+        <button class="nav-link" id="tab-favs">♡ favorites</button>
+        <button class="nav-link active" id="tab-all">all artists</button>
+        <button class="btn-primary" id="add-artist-btn">+ add artist</button>
+      </nav>
+    </header>
+
+    <!-- 1. COLLECTION VIEW -->
+    <section id="view-collection" class="view-container active">
+      <div class="collection-layout">
+        
+        <!-- Cards Grid Area -->
+        <div class="cards-grid" id="cards-grid">
+          <!-- Dynamic cards render here -->
+        </div>
+
+        <!-- Sidebar: Categories -->
+        <aside class="categories-sidebar">
+          <div class="sidebar-header">
+            <span class="sidebar-title">Categories</span>
+            <button id="add-category-btn" style="font-size: 1.1rem;">+</button>
+          </div>
+          <ul class="category-list" id="category-list">
+            <!-- Dynamic categories render here -->
+          </ul>
+          <div class="sidebar-footer-note">
+            Organize artists into personal lists. Click a category to filter.
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- 2. ARTIST PROFILE / JOURNAL VIEW -->
+    <section id="view-artist" class="view-container">
+      <button class="back-btn" id="back-to-collection">← Back to collection</button>
+      
+      <div class="profile-header">
+        <img id="artist-profile-img" class="profile-photo" src="" alt="Artist Photo">
+        <div class="profile-details">
+          <h2 id="artist-profile-name" class="profile-name">Artist Name</h2>
+          <span id="artist-profile-cat" class="profile-tag">Category</span>
+          <div class="profile-actions">
+            <button id="profile-fav-btn" class="fav-btn">♡ Favorite</button>
+            <button class="btn-secondary" id="edit-profile-btn">Edit Details</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notion-Inspired Collapsible Sections -->
+      <div class="journal-sections">
+        
+        <!-- Basic Information -->
+        <div class="journal-section open">
+          <button class="section-toggle">
+            <span>Basic information</span>
+            <span class="toggle-icon">▲</span>
+          </button>
+          <div class="section-content">
+            <div class="editable-text" contenteditable="true" id="sec-basic">
+              Birthday: October 15 • Debut Year: 2019 • Roles: Actor, Singer
+            </div>
+          </div>
+        </div>
+
+        <!-- Things I Know About Them -->
+        <div class="journal-section">
+          <button class="section-toggle">
+            <span>Things I know about them</span>
+            <span class="toggle-icon">▼</span>
+          </button>
+          <div class="section-content">
+            <div class="editable-text" contenteditable="true" id="sec-facts">
+              Loves photography, owns two cats, speaks three languages fluently, and has a very quiet, observant personality off-camera.
+            </div>
+          </div>
+        </div>
+
+        <!-- Why I Like Them -->
+        <div class="journal-section">
+          <button class="section-toggle">
+            <span>Why I like them</span>
+            <span class="toggle-icon">▼</span>
+          </button>
+          <div class="section-content">
+            <div class="editable-text" contenteditable="true" id="sec-why">
+              <p class="quote-block">"Their subtle emotional expressions bring so much depth to every character they play."</p>
+              <p>They bring a sense of gentle comfort whenever I watch their work after a long day.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorite Works -->
+        <div class="journal-section">
+          <button class="section-toggle">
+            <span>Favorite works</span>
+            <span class="toggle-icon">▼</span>
+          </button>
+          <div class="section-content">
+            <div class="editable-text" contenteditable="true" id="sec-works">
+              • Midnight Series (2022)<br/>
+              • Moonlight Heart (Original Soundtrack)<br/>
+              • Summer Breeze Photo Essay
+            </div>
+          </div>
+        </div>
+
+        <!-- How I Discovered Them (Discovery Section) -->
+        <div class="journal-section open">
+          <button class="section-toggle">
+            <span>How I discovered them</span>
+            <span class="toggle-icon">▲</span>
+          </button>
+          <div class="section-content">
+            <div class="editable-text" contenteditable="true" id="sec-discovered-text">
+              Stumbled upon clip edits of their drama late one evening in late 2022.
+            </div>
+            
+            <div class="discovery-card" id="discovery-card">
+              <img class="discovery-poster" id="discovery-img" src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150" alt="Series Poster">
+              <div class="discovery-info">
+                <span class="discovery-label">Discovered through</span>
+                <span class="discovery-title" id="discovery-title">Never Let Me Go</span>
+              </div>
+            </div>
+
+            <div class="discovery-search-box">
+              <input type="text" id="series-input" placeholder="Search or type a series name..." />
+              <button class="btn-secondary" id="update-series-btn">Link Series</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Notes -->
+        <div class="journal-section">
+          <button class="section-toggle">
+            <span>My notes</span>
+            <span class="toggle-icon">▼</span>
+          </button>
+          <div class="section-content">
+            <div class="editable-text" contenteditable="true" id="sec-notes">
+              Click anywhere in these sections to add your own notes, links, quotes, or thoughts...
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===================================================================
+       7. JAVASCRIPT APP LOGIC
+  ==================================================================== -->
+  <script>
+    // --- Sample Initial Data ---
+    let categories = ["K-pop", "Thai Artists", "GMMTV", "DMD", "Chinese Actors", "Actresses", "Singers"];
+    let activeCategory = "All";
+    let activeTab = "all"; // 'all' or 'favs'
+
+    let artists = [
+      {
+        id: 1,
+        name: "Phuwin Tangsakyuen",
+        category: "GMMTV",
+        favorite: true,
+        photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+        discoverySeries: "Never Let Me Go",
+        discoveryPoster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150"
+      },
+      {
+        id: 2,
+        name: "Zhao Lusi",
+        category: "Actresses",
+        favorite: true,
+        photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+        discoverySeries: "Hidden Love",
+        discoveryPoster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150"
+      },
+      {
+        id: 3,
+        name: "First Kanaphan",
+        category: "Thai Artists",
+        favorite: false,
+        photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+        discoverySeries: "The Eclipse",
+        discoveryPoster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=150"
+      },
+      {
+        id: 4,
+        name: "IU (Lee Ji-eun)",
+        category: "Singers",
+        favorite: true,
+        photo: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80",
+        discoverySeries: "Hotel Del Luna",
+        discoveryPoster: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150"
+      }
+    ];
+
+    let selectedArtistId = null;
+
+    // --- DOM Elements ---
+    const splashScreen = document.getElementById('splash-screen');
+    const enterBtn = document.getElementById('enter-btn');
+    const mainApp = document.getElementById('main-app');
+    
+    const viewCollection = document.getElementById('view-collection');
+    const viewArtist = document.getElementById('view-artist');
+    const cardsGrid = document.getElementById('cards-grid');
+    const categoryList = document.getElementById('category-list');
+    
+    const tabAll = document.getElementById('tab-all');
+    const tabFavs = document.getElementById('tab-favs');
+    const brandLogo = document.getElementById('brand-logo');
+    const backBtn = document.getElementById('back-to-collection');
+    const addArtistBtn = document.getElementById('add-artist-btn');
+    const addCategoryBtn = document.getElementById('add-category-btn');
+
+    // --- 1. Opening Screen Interaction ---
+    enterBtn.addEventListener('click', () => {
+      splashScreen.classList.add('hidden');
+      mainApp.classList.add('visible');
+    });
+
+    brandLogo.addEventListener('click', () => {
+      showCollectionView();
+    });
+
+    // --- 2. Render Categories Sidebar ---
+    function renderCategories() {
+      categoryList.innerHTML = '';
+      
+      // 'All' item
+      const allLi = document.createElement('li');
+      allLi.className = `category-item ${activeCategory === 'All' ? 'active' : ''}`;
+      allLi.textContent = 'All Categories';
+      allLi.onclick = () => {
+        activeCategory = 'All';
+        renderCategories();
+        renderCards();
+      };
+      categoryList.appendChild(allLi);
+
+      categories.forEach((cat, index) => {
+        const li = document.createElement('li');
+        li.className = `category-item ${activeCategory === cat ? 'active' : ''}`;
+        li.innerHTML = `
+          <span>${cat}</span>
+          <span class="category-actions" onclick="event.stopPropagation(); editCategory(${index})">•••</span>
+        `;
+        li.onclick = () => {
+          activeCategory = cat;
+          renderCategories();
+          renderCards();
+        };
+        categoryList.appendChild(li);
+      });
+    }
+
+    // Category CRUD
+    addCategoryBtn.addEventListener('click', () => {
+      const newCat = prompt('Enter new category name:');
+      if (newCat && newCat.trim() !== '') {
+        categories.push(newCat.trim());
+        renderCategories();
+      }
+    });
+
+    function editCategory(index) {
+      const currentName = categories[index];
+      const action = prompt(`Edit category "${currentName}":\nType a new name to RENAME, or type "DELETE" to delete.`, currentName);
+      
+      if (action === "DELETE") {
+        categories.splice(index, 1);
+        if (activeCategory === currentName) activeCategory = "All";
+      } else if (action && action.trim() !== "") {
+        categories[index] = action.trim();
+        if (activeCategory === currentName) activeCategory = action.trim();
+      }
+      renderCategories();
+      renderCards();
+    }
+
+    // --- 3. Render Photocard Collection ---
+    function renderCards() {
+      cardsGrid.innerHTML = '';
+
+      const filtered = artists.filter(artist => {
+        const matchesCategory = (activeCategory === 'All' || artist.category === activeCategory);
+        const matchesTab = (activeTab === 'all' || (activeTab === 'favs' && artist.favorite));
+        return matchesCategory && matchesTab;
+      });
+
+      if (filtered.length === 0) {
+        cardsGrid.innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted); font-style: italic; padding: 20px 0;">No artists found in this collection view.</p>`;
+        return;
+      }
+
+      filtered.forEach(artist => {
+        const card = document.createElement('div');
+        card.className = 'photocard';
+        card.onclick = () => openArtistProfile(artist.id);
+
+        card.innerHTML = `
+          <div class="card-photo-wrapper">
+            <img class="card-photo" src="${artist.photo}" alt="${artist.name}">
+          </div>
+          <div class="card-meta">
+            <div class="card-info">
+              <span class="card-name">${artist.name}</span>
+              <span class="card-category">${artist.category}</span>
+            </div>
+            <button class="fav-btn ${artist.favorite ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${artist.id})">
+              ${artist.favorite ? '♥' : '♡'}
+            </button>
+          </div>
+        `;
+        cardsGrid.appendChild(card);
+      });
+    }
+
+    function toggleFavorite(id) {
+      const artist = artists.find(a => a.id === id);
+      if (artist) {
+        artist.favorite = !artist.favorite;
+        renderCards();
+        if (selectedArtistId === id) {
+          updateProfileFavBtn();
+        }
+      }
+    }
+
+    // Add New Artist
+    addArtistBtn.addEventListener('click', () => {
+      const name = prompt('Artist Name:');
+      if (!name) return;
+      const category = prompt(`Category (${categories.join(', ')}):`, categories[0]) || "General";
+      const photo = prompt('Image URL (leave blank for default):') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400';
+
+      const newArtist = {
+        id: Date.now(),
+        name,
+        category,
+        favorite: false,
+        photo,
+        discoverySeries: "Newly Discovered",
+        discoveryPoster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150"
+      };
+
+      artists.push(newArtist);
+      if (!categories.includes(category)) categories.push(category);
+      renderCategories();
+      renderCards();
+    });
+
+    // Nav Tabs switching
+    tabAll.addEventListener('click', () => {
+      activeTab = 'all';
+      tabAll.classList.add('active');
+      tabFavs.classList.remove('active');
+      showCollectionView();
+      renderCards();
+    });
+
+    tabFavs.addEventListener('click', () => {
+      activeTab = 'favs';
+      tabFavs.classList.add('active');
+      tabAll.classList.remove('active');
+      showCollectionView();
+      renderCards();
+    });
+
+    // --- 4. Navigation & Artist Profile Page ---
+    function showCollectionView() {
+      viewArtist.classList.remove('active');
+      viewCollection.classList.add('active');
+    }
+
+    backBtn.addEventListener('click', () => {
+      showCollectionView();
+    });
+
+    function openArtistProfile(id) {
+      selectedArtistId = id;
+      const artist = artists.find(a => a.id === id);
+      if (!artist) return;
+
+      document.getElementById('artist-profile-img').src = artist.photo;
+      document.getElementById('artist-profile-name').textContent = artist.name;
+      document.getElementById('artist-profile-cat').textContent = artist.category;
+      document.getElementById('discovery-title').textContent = artist.discoverySeries;
+      document.getElementById('discovery-img').src = artist.discoveryPoster;
+
+      updateProfileFavBtn();
+
+      viewCollection.classList.remove('active');
+      viewArtist.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProfileFavBtn() {
+      const artist = artists.find(a => a.id === selectedArtistId);
+      const profileFavBtn = document.getElementById('profile-fav-btn');
+      if (artist && artist.favorite) {
+        profileFavBtn.innerHTML = '♥ Favorited';
+        profileFavBtn.classList.add('active');
+      } else {
+        profileFavBtn.innerHTML = '♡ Add Favorite';
+        profileFavBtn.classList.remove('active');
+      }
+    }
+
+    document.getElementById('profile-fav-btn').addEventListener('click', () => {
+      if (selectedArtistId) {
+        toggleFavorite(selectedArtistId);
+      }
+    });
+
+    // --- 5. Notion-inspired Accordion Toggles ---
+    document.querySelectorAll('.section-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const section = toggle.parentElement;
+        section.classList.toggle('open');
+        const icon = toggle.querySelector('.toggle-icon');
+        icon.textContent = section.classList.contains('open') ? '▲' : '▼';
+      });
+    });
+
+    // --- 6. Discovery Section Linker ---
+    document.getElementById('update-series-btn').addEventListener('click', () => {
+      const input = document.getElementById('series-input');
+      const val = input.value.trim();
+      if (val && selectedArtistId) {
+        const artist = artists.find(a => a.id === selectedArtistId);
+        if (artist) {
+          artist.discoverySeries = val;
+          document.getElementById('discovery-title').textContent = val;
+          input.value = '';
+        }
+      }
+    });
+
+    // --- INITIALIZE ---
+    renderCategories();
+    renderCards();
+  </script>
+</body>
+</html>
