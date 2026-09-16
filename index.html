@@ -4,35 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Artist Collection — Personal Archive</title>
-  <!-- Google Fonts: Playfair Display (Serif) & Inter (Sans-Serif) -->
+  
+  <!-- Custom Google Fonts Import -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Covered+By+Your+Grace&family=Eagle+Lake&family=Instrument+Serif:ital@0;1&family=Mrs+Saint+Delafield&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     /* -----------------------------------------------------------------
-       1. VISUAL SYSTEM & DESIGN TOKENS
+       1. VISUAL SYSTEM & PASTEL COLOR PALETTE
     ----------------------------------------------------------------- */
     :root {
-      --bg-cream: #FDFBF7;
-      --bg-surface: #FFFFFF;
-      --bg-accent-soft: #F7F3EE;
-      --text-main: #2C2A29;
-      --text-muted: #8C857B;
-      --accent-blush: #F4E8E5;
-      --accent-blush-hover: #EBDAD6;
-      --accent-rose: #D98A8A;
-      --accent-sage: #8A9A86;
-      --accent-slate: #5A7B8C;
-      --border-light: rgba(220, 214, 204, 0.45);
-      --border-focus: #C4B9AA;
-      --shadow-subtle: 0 4px 20px rgba(44, 42, 41, 0.04);
-      --shadow-hover: 0 10px 25px rgba(44, 42, 41, 0.08);
+      /* Soft Pastel Palette */
+      --bg-cream: #FAF9F5;             /* Warm soft milk background */
+      --bg-surface: #FFFFFF;           /* Crisp card background */
+      --bg-accent-yellow: #FFF9E6;     /* Pastel yellow highlight */
+      --bg-accent-mint: #E8F5E9;       /* Pastel mint tint */
+      --bg-accent-pink: #FDF0F3;       /* Delicate blush pink background */
+      
+      --text-main: #33302E;            /* Warm charcoal */
+      --text-muted: #8A837C;           /* Muted taupe */
+      
+      /* Pastel Accent Colors */
+      --pastel-pink: #F7D6D0;          /* Soft Rose/Pink */
+      --pastel-pink-hover: #F2C4BB;
+      --pastel-mint: #C5E1A5;          /* Soft Mint/Sage */
+      --pastel-yellow: #FFF176;        /* Light Pastel Yellow */
+      --pastel-yellow-soft: #FFFDF0;
+      --pastel-green-accent: #81C784;  /* Pastel Green button/active tint */
+
+      --border-light: rgba(224, 216, 203, 0.5);
+      --border-pink: #F3CEC7;
+      --border-mint: #B9E0BD;
+
+      --shadow-subtle: 0 4px 20px rgba(180, 160, 150, 0.06);
+      --shadow-hover: 0 10px 25px rgba(180, 160, 150, 0.12);
+      
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      
+      /* Typography System */
+      --font-instrument: 'Instrument Serif', serif;
+      --font-eagle: 'Eagle Lake', cursive;
+      --font-beth: 'Beth Ellen', cursive;
+      --font-covered: 'Covered By Your Grace', cursive;
+      --font-signature: 'Mrs Saint Delafield', cursive;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      
       --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
     }
 
@@ -52,15 +71,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* -----------------------------------------------------------------
-       2. TYPOGRAPHY & COMMON UI ELEMENTS
-    ----------------------------------------------------------------- */
-    h1, h2, h3, .serif-text {
-      font-family: var(--font-serif);
-      font-weight: 400;
-      color: var(--text-main);
-    }
-
     button {
       font-family: var(--font-sans);
       cursor: pointer;
@@ -77,8 +87,8 @@
     }
 
     .btn-primary {
-      background-color: var(--accent-slate);
-      color: #FFFFFF;
+      background-color: var(--pastel-mint);
+      color: #2E472B;
       padding: 8px 18px;
       border-radius: var(--radius-sm);
       font-size: 0.85rem;
@@ -86,39 +96,35 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      box-shadow: 0 2px 8px rgba(197, 225, 165, 0.4);
     }
 
     .btn-primary:hover {
-      opacity: 0.9;
+      background-color: var(--pastel-green-accent);
+      color: #FFFFFF;
       transform: translateY(-1px);
     }
 
     .btn-secondary {
-      background-color: var(--accent-blush);
-      color: var(--text-main);
+      background-color: var(--pastel-pink);
+      color: #4A2825;
       padding: 8px 16px;
       border-radius: var(--radius-sm);
       font-size: 0.85rem;
     }
 
     .btn-secondary:hover {
-      background-color: var(--accent-blush-hover);
-    }
-
-    .sparkle {
-      display: inline-block;
-      color: var(--accent-rose);
-      opacity: 0.7;
+      background-color: var(--pastel-pink-hover);
     }
 
     /* -----------------------------------------------------------------
-       3. SPLASH / OPENING SCREEN
+       2. SPLASH / OPENING SCREEN
     ----------------------------------------------------------------- */
     #splash-screen {
       position: fixed;
       inset: 0;
       z-index: 1000;
-      background-color: var(--bg-cream);
+      background: linear-gradient(135deg, var(--bg-cream) 0%, var(--bg-accent-pink) 50%, var(--bg-accent-yellow) 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -136,26 +142,25 @@
 
     .splash-content {
       position: relative;
-      max-width: 480px;
+      max-width: 540px;
     }
 
     .splash-decorations {
       position: absolute;
-      inset: -30px;
+      inset: -50px;
       pointer-events: none;
     }
 
     .decor-item {
       position: absolute;
-      font-size: 1.2rem;
-      opacity: 0.5;
+      font-size: 1.4rem;
       animation: float 4s ease-in-out infinite alternate;
     }
 
-    .decor-1 { top: 0; left: 10%; animation-delay: 0s; }
-    .decor-2 { top: 20%; right: 5%; animation-delay: 1s; }
-    .decor-3 { bottom: 10%; left: 15%; animation-delay: 2s; }
-    .decor-4 { bottom: 5%; right: 20%; animation-delay: 1.5s; }
+    .decor-1 { top: 0; left: 10%; color: #E57373; animation-delay: 0s; }
+    .decor-2 { top: 15%; right: 5%; color: #FBC02D; animation-delay: 1s; }
+    .decor-3 { bottom: 10%; left: 15%; color: #81C784; animation-delay: 2s; }
+    .decor-4 { bottom: 5%; right: 20%; color: #BA68C8; animation-delay: 1.5s; }
 
     @keyframes float {
       0% { transform: translateY(0px) rotate(0deg); }
@@ -163,36 +168,42 @@
     }
 
     .splash-title {
-      font-size: 3.2rem;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
+      font-family: var(--font-instrument);
+      font-size: 4.2rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
       color: var(--text-main);
     }
 
     .splash-subtitle {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      font-weight: 300;
+      font-family: var(--font-covered);
+      font-size: 1.6rem;
+      color: #6D635B;
       margin-bottom: 48px;
     }
 
     .tap-trigger {
+      font-family: var(--font-beth);
       font-size: 0.85rem;
       color: var(--text-muted);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      opacity: 0.6;
+      letter-spacing: 0.1em;
+      opacity: 0.8;
       cursor: pointer;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.6);
+      display: inline-block;
       animation: pulse 2s infinite ease-in-out;
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.85; }
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
     }
 
     /* -----------------------------------------------------------------
-       4. MAIN APP CONTAINER & NAVIGATION
+       3. MAIN INTERFACE & NAVIGATION
     ----------------------------------------------------------------- */
     #main-app {
       opacity: 0;
@@ -214,15 +225,16 @@
       justify-content: space-between;
       align-items: center;
       padding: 40px 0 30px;
-      border-bottom: 1px solid var(--border-light);
+      border-bottom: 2px dashed var(--border-pink);
       margin-bottom: 32px;
     }
 
     .logo-area {
-      font-family: var(--font-serif);
-      font-size: 1.6rem;
+      font-family: var(--font-instrument);
+      font-size: 2.3rem;
       cursor: pointer;
       letter-spacing: -0.01em;
+      color: var(--text-main);
     }
 
     .nav-tabs {
@@ -240,6 +252,7 @@
 
     .nav-link.active {
       color: var(--text-main);
+      font-weight: 500;
     }
 
     .nav-link.active::after {
@@ -248,12 +261,12 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 1.5px;
-      background-color: var(--accent-rose);
+      height: 2px;
+      background-color: #E57373;
     }
 
     /* -----------------------------------------------------------------
-       5. COLLECTION VIEW & CATEGORY SIDEBAR
+       4. COLLECTION LAYOUT & PHOTOCARDS
     ----------------------------------------------------------------- */
     .view-container {
       display: none;
@@ -265,7 +278,7 @@
 
     .collection-layout {
       display: grid;
-      grid-template-columns: 1fr 240px;
+      grid-template-columns: 1fr 250px;
       gap: 40px;
     }
 
@@ -275,7 +288,6 @@
       gap: 24px;
     }
 
-    /* Photocard Component (Minimal Editorial Style) */
     .photocard {
       background-color: var(--bg-surface);
       border-radius: var(--radius-md);
@@ -292,6 +304,7 @@
     .photocard:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-hover);
+      border-color: var(--border-pink);
     }
 
     .card-photo-wrapper {
@@ -300,7 +313,7 @@
       border-radius: var(--radius-sm);
       overflow: hidden;
       margin-bottom: 12px;
-      background-color: var(--bg-accent-soft);
+      background-color: var(--bg-accent-mint);
     }
 
     .card-photo {
@@ -328,9 +341,9 @@
     }
 
     .card-name {
-      font-family: var(--font-serif);
-      font-size: 1.1rem;
-      font-weight: 500;
+      font-family: var(--font-instrument);
+      font-size: 1.35rem;
+      line-height: 1.1;
     }
 
     .card-category {
@@ -341,19 +354,19 @@
     }
 
     .fav-btn {
-      color: #CCC;
+      color: #DDD;
       font-size: 1.1rem;
       padding: 2px;
     }
 
     .fav-btn.active {
-      color: var(--accent-rose);
+      color: #E57373;
     }
 
-    /* Categories Sidebar */
+    /* Sidebar Categories */
     .categories-sidebar {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
+      background: var(--bg-accent-yellow);
+      border: 1px solid rgba(255, 241, 118, 0.6);
       border-radius: var(--radius-md);
       padding: 20px;
       height: fit-content;
@@ -368,10 +381,9 @@
     }
 
     .sidebar-title {
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
+      font-family: var(--font-eagle);
+      font-size: 0.95rem;
+      color: var(--text-main);
     }
 
     .category-list {
@@ -393,12 +405,12 @@
     }
 
     .category-item:hover, .category-item.active {
-      background-color: var(--bg-accent-soft);
+      background-color: #FFF;
     }
 
     .category-item.active {
       font-weight: 500;
-      border-left: 2px solid var(--accent-slate);
+      border-left: 3px solid var(--pastel-green-accent);
     }
 
     .category-actions {
@@ -415,14 +427,15 @@
     .sidebar-footer-note {
       margin-top: 16px;
       padding-top: 12px;
-      border-top: 1px dashed var(--border-light);
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.4;
+      border-top: 1px dashed rgba(200, 190, 160, 0.4);
+      font-family: var(--font-covered);
+      font-size: 1.15rem;
+      color: #7A7265;
+      line-height: 1.3;
     }
 
     /* -----------------------------------------------------------------
-       6. ARTIST PROFILE / JOURNAL PAGE (NOTION-INSPIRED)
+       5. ARTIST PROFILE / JOURNAL PAGE
     ----------------------------------------------------------------- */
     .back-btn {
       display: inline-flex;
@@ -444,6 +457,9 @@
       padding-bottom: 32px;
       border-bottom: 1px solid var(--border-light);
       margin-bottom: 32px;
+      background: linear-gradient(90deg, var(--bg-accent-pink) 0%, var(--bg-cream) 100%);
+      padding: 24px;
+      border-radius: var(--radius-md);
     }
 
     .profile-photo {
@@ -452,7 +468,8 @@
       border-radius: var(--radius-sm);
       object-fit: cover;
       box-shadow: var(--shadow-subtle);
-      border: 1px solid var(--border-light);
+      border: 2px solid #FFF;
+      background-color: var(--bg-accent-mint);
     }
 
     .profile-details {
@@ -460,19 +477,22 @@
     }
 
     .profile-name {
-      font-size: 2.2rem;
-      margin-bottom: 6px;
+      font-family: var(--font-instrument);
+      font-size: 2.8rem;
+      margin-bottom: 4px;
+      line-height: 1;
     }
 
     .profile-tag {
       display: inline-block;
-      background-color: var(--accent-blush);
-      color: var(--text-main);
-      padding: 3px 10px;
+      background-color: var(--pastel-yellow);
+      color: #5C5200;
+      padding: 3px 12px;
       border-radius: 20px;
       font-size: 0.75rem;
       letter-spacing: 0.03em;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      font-weight: 500;
     }
 
     .profile-actions {
@@ -481,7 +501,7 @@
       align-items: center;
     }
 
-    /* Notion-like Collapsible Sections */
+    /* Accordion Sections */
     .journal-section {
       border-bottom: 1px solid var(--border-light);
       padding: 18px 0;
@@ -493,8 +513,8 @@
       justify-content: space-between;
       align-items: center;
       text-align: left;
-      font-size: 1.15rem;
-      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      font-family: var(--font-instrument);
       color: var(--text-main);
     }
 
@@ -529,40 +549,43 @@
     }
 
     .editable-text[contenteditable="true"]:focus {
-      outline: 1px solid var(--border-focus);
+      outline: 1px solid var(--border-mint);
       background-color: var(--bg-surface);
       border-radius: 4px;
       padding: 6px;
     }
 
+    .handwritten-note {
+      font-family: var(--font-signature);
+      font-size: 2.2rem;
+      color: #D81B60;
+      line-height: 1.1;
+      margin: 8px 0;
+    }
+
     .quote-block {
-      border-left: 2px solid var(--accent-rose);
+      border-left: 3px solid var(--pastel-pink);
       padding-left: 16px;
       margin: 12px 0;
       font-style: italic;
       color: var(--text-muted);
+      background: var(--bg-accent-pink);
+      padding: 10px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     }
 
-    /* Discovery Card Sub-component */
+    /* Discovery Card */
     .discovery-card {
       display: flex;
       align-items: center;
       gap: 16px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-light);
+      background: var(--bg-accent-mint);
+      border: 1px solid var(--border-mint);
       padding: 12px 16px;
       border-radius: var(--radius-sm);
       width: fit-content;
       box-shadow: var(--shadow-subtle);
       margin-top: 12px;
-    }
-
-    .discovery-poster {
-      width: 48px;
-      height: 64px;
-      border-radius: 4px;
-      object-fit: cover;
-      background-color: var(--bg-accent-soft);
     }
 
     .discovery-info {
@@ -572,14 +595,14 @@
 
     .discovery-label {
       font-size: 0.75rem;
-      color: var(--text-muted);
+      color: #4A6B43;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
     .discovery-title {
-      font-weight: 500;
-      font-size: 0.95rem;
+      font-family: var(--font-instrument);
+      font-size: 1.25rem;
     }
 
     .discovery-search-box {
@@ -595,6 +618,101 @@
       border-radius: var(--radius-sm);
       font-size: 0.85rem;
       width: 260px;
+    }
+
+    /* -----------------------------------------------------------------
+       MODAL STYLES (NEW ENTRY FORM)
+    ----------------------------------------------------------------- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border: 1px solid var(--border-pink);
+    }
+
+    .modal-title {
+      font-family: var(--font-instrument);
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-group input, .form-group select {
+      padding: 10px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      background: var(--bg-cream);
+      font-size: 0.9rem;
+    }
+
+    .form-group input[type="file"] {
+      background: #FFF;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--pastel-pink);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--border-pink);
+      color: var(--text-muted);
+    }
+
+    .empty-state-title {
+      font-family: var(--font-instrument);
+      font-size: 1.6rem;
+      color: var(--text-main);
+      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -622,13 +740,13 @@
   ==================================================================== -->
   <div id="main-app">
     
-    <!-- Header / Navigation -->
+    <!-- Header Navigation -->
     <header>
       <div class="logo-area" id="brand-logo">artist collection</div>
       <nav class="nav-tabs">
         <button class="nav-link" id="tab-favs">♡ favorites</button>
         <button class="nav-link active" id="tab-all">all artists</button>
-        <button class="btn-primary" id="add-artist-btn">+ add artist</button>
+        <button class="btn-primary" id="open-add-artist-modal">+ add artist</button>
       </nav>
     </header>
 
@@ -637,21 +755,17 @@
       <div class="collection-layout">
         
         <!-- Cards Grid Area -->
-        <div class="cards-grid" id="cards-grid">
-          <!-- Dynamic cards render here -->
-        </div>
+        <div class="cards-grid" id="cards-grid"></div>
 
         <!-- Sidebar: Categories -->
         <aside class="categories-sidebar">
           <div class="sidebar-header">
             <span class="sidebar-title">Categories</span>
-            <button id="add-category-btn" style="font-size: 1.1rem;">+</button>
+            <button id="open-add-cat-modal" style="font-size: 1.2rem; line-height: 1;">+</button>
           </div>
-          <ul class="category-list" id="category-list">
-            <!-- Dynamic categories render here -->
-          </ul>
+          <ul class="category-list" id="category-list"></ul>
           <div class="sidebar-footer-note">
-            Organize artists into personal lists. Click a category to filter.
+            Organize artists into your personal archive.
           </div>
         </aside>
 
@@ -669,7 +783,7 @@
           <span id="artist-profile-cat" class="profile-tag">Category</span>
           <div class="profile-actions">
             <button id="profile-fav-btn" class="fav-btn">♡ Favorite</button>
-            <button class="btn-secondary" id="edit-profile-btn">Edit Details</button>
+            <button class="btn-secondary" id="delete-artist-btn" style="background-color: #ffebee; color: #c62828;">Delete Entry</button>
           </div>
         </div>
       </div>
@@ -685,7 +799,7 @@
           </button>
           <div class="section-content">
             <div class="editable-text" contenteditable="true" id="sec-basic">
-              Birthday: October 15 • Debut Year: 2019 • Roles: Actor, Singer
+              Birthday: • Debut Year: • Roles:
             </div>
           </div>
         </div>
@@ -698,7 +812,7 @@
           </button>
           <div class="section-content">
             <div class="editable-text" contenteditable="true" id="sec-facts">
-              Loves photography, owns two cats, speaks three languages fluently, and has a very quiet, observant personality off-camera.
+              Click here to write facts and traits about this artist...
             </div>
           </div>
         </div>
@@ -711,8 +825,8 @@
           </button>
           <div class="section-content">
             <div class="editable-text" contenteditable="true" id="sec-why">
-              <p class="quote-block">"Their subtle emotional expressions bring so much depth to every character they play."</p>
-              <p>They bring a sense of gentle comfort whenever I watch their work after a long day.</p>
+              <div class="handwritten-note">"Add a favorite signature quote..."</div>
+              <p class="quote-block">"Add a quote or thought here..."</p>
             </div>
           </div>
         </div>
@@ -725,14 +839,13 @@
           </button>
           <div class="section-content">
             <div class="editable-text" contenteditable="true" id="sec-works">
-              • Midnight Series (2022)<br/>
-              • Moonlight Heart (Original Soundtrack)<br/>
-              • Summer Breeze Photo Essay
+              • Project 1<br/>
+              • Project 2
             </div>
           </div>
         </div>
 
-        <!-- How I Discovered Them (Discovery Section) -->
+        <!-- How I Discovered Them -->
         <div class="journal-section open">
           <button class="section-toggle">
             <span>How I discovered them</span>
@@ -740,20 +853,19 @@
           </button>
           <div class="section-content">
             <div class="editable-text" contenteditable="true" id="sec-discovered-text">
-              Stumbled upon clip edits of their drama late one evening in late 2022.
+              Write about how you first discovered them...
             </div>
             
             <div class="discovery-card" id="discovery-card">
-              <img class="discovery-poster" id="discovery-img" src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150" alt="Series Poster">
               <div class="discovery-info">
                 <span class="discovery-label">Discovered through</span>
-                <span class="discovery-title" id="discovery-title">Never Let Me Go</span>
+                <span class="discovery-title" id="discovery-title">None listed</span>
               </div>
             </div>
 
             <div class="discovery-search-box">
-              <input type="text" id="series-input" placeholder="Search or type a series name..." />
-              <button class="btn-secondary" id="update-series-btn">Link Series</button>
+              <input type="text" id="series-input" placeholder="Update series or title..." />
+              <button class="btn-secondary" id="update-series-btn">Save Title</button>
             </div>
           </div>
         </div>
@@ -777,56 +889,73 @@
   </div>
 
   <!-- ===================================================================
-       7. JAVASCRIPT APP LOGIC
+       MODAL: ADD NEW ARTIST
+  ==================================================================== -->
+  <div class="modal-overlay" id="artist-modal">
+    <div class="modal-box">
+      <h3 class="modal-title">Add New Artist</h3>
+      <form id="artist-form">
+        <div class="form-group">
+          <label for="artist-name-input">Artist Name</label>
+          <input type="text" id="artist-name-input" placeholder="e.g. Zhao Lusi" required />
+        </div>
+        <div class="form-group">
+          <label for="artist-cat-select">Category</label>
+          <select id="artist-cat-select" required></select>
+        </div>
+        
+        <!-- FILE UPLOAD INPUT -->
+        <div class="form-group">
+          <label for="artist-img-file">Upload Photo</label>
+          <input type="file" id="artist-img-file" accept="image/*" />
+        </div>
+
+        <div class="form-group">
+          <label for="artist-series-input">Discovered Through (Series/Work)</label>
+          <input type="text" id="artist-series-input" placeholder="e.g. Hidden Love" />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="close-artist-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Add Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL: ADD NEW CATEGORY
+  ==================================================================== -->
+  <div class="modal-overlay" id="category-modal">
+    <div class="modal-box">
+      <h3 class="modal-title">Add Category</h3>
+      <form id="category-form">
+        <div class="form-group">
+          <label for="cat-name-input">Category Name</label>
+          <input type="text" id="cat-name-input" placeholder="e.g. Actresses" required />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="close-cat-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Create Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       6. JAVASCRIPT LOGIC
   ==================================================================== -->
   <script>
-    // --- Sample Initial Data ---
-    let categories = ["K-pop", "Thai Artists", "GMMTV", "DMD", "Chinese Actors", "Actresses", "Singers"];
+    // Empty state storage arrays
+    let categories = [];
     let activeCategory = "All";
-    let activeTab = "all"; // 'all' or 'favs'
-
-    let artists = [
-      {
-        id: 1,
-        name: "Phuwin Tangsakyuen",
-        category: "GMMTV",
-        favorite: true,
-        photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
-        discoverySeries: "Never Let Me Go",
-        discoveryPoster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150"
-      },
-      {
-        id: 2,
-        name: "Zhao Lusi",
-        category: "Actresses",
-        favorite: true,
-        photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-        discoverySeries: "Hidden Love",
-        discoveryPoster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=150"
-      },
-      {
-        id: 3,
-        name: "First Kanaphan",
-        category: "Thai Artists",
-        favorite: false,
-        photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
-        discoverySeries: "The Eclipse",
-        discoveryPoster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=150"
-      },
-      {
-        id: 4,
-        name: "IU (Lee Ji-eun)",
-        category: "Singers",
-        favorite: true,
-        photo: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80",
-        discoverySeries: "Hotel Del Luna",
-        discoveryPoster: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150"
-      }
-    ];
-
+    let activeTab = "all";
+    let artists = [];
     let selectedArtistId = null;
 
-    // --- DOM Elements ---
+    // Default SVG Placeholder when image is missing or invalid
+    const defaultPlaceholder = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238A837C' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='5'/><path d='M20 21a8 8 0 1 0-16 0'/></svg>";
+
+    // Elements
     const splashScreen = document.getElementById('splash-screen');
     const enterBtn = document.getElementById('enter-btn');
     const mainApp = document.getElementById('main-app');
@@ -840,24 +969,30 @@
     const tabFavs = document.getElementById('tab-favs');
     const brandLogo = document.getElementById('brand-logo');
     const backBtn = document.getElementById('back-to-collection');
-    const addArtistBtn = document.getElementById('add-artist-btn');
-    const addCategoryBtn = document.getElementById('add-category-btn');
+    
+    // Modals
+    const artistModal = document.getElementById('artist-modal');
+    const openAddArtistBtn = document.getElementById('open-add-artist-modal');
+    const closeArtistModalBtn = document.getElementById('close-artist-modal');
+    const artistForm = document.getElementById('artist-form');
+    
+    const categoryModal = document.getElementById('category-modal');
+    const openAddCatBtn = document.getElementById('open-add-cat-modal');
+    const closeCatModalBtn = document.getElementById('close-cat-modal');
+    const categoryForm = document.getElementById('category-form');
 
-    // --- 1. Opening Screen Interaction ---
+    // Splash Entrance
     enterBtn.addEventListener('click', () => {
       splashScreen.classList.add('hidden');
       mainApp.classList.add('visible');
     });
 
-    brandLogo.addEventListener('click', () => {
-      showCollectionView();
-    });
+    brandLogo.addEventListener('click', () => showCollectionView());
 
-    // --- 2. Render Categories Sidebar ---
+    // Category Rendering
     function renderCategories() {
       categoryList.innerHTML = '';
       
-      // 'All' item
       const allLi = document.createElement('li');
       allLi.className = `category-item ${activeCategory === 'All' ? 'active' : ''}`;
       allLi.textContent = 'All Categories';
@@ -873,7 +1008,7 @@
         li.className = `category-item ${activeCategory === cat ? 'active' : ''}`;
         li.innerHTML = `
           <span>${cat}</span>
-          <span class="category-actions" onclick="event.stopPropagation(); editCategory(${index})">•••</span>
+          <span class="category-actions" onclick="event.stopPropagation(); deleteCategory(${index})">✕</span>
         `;
         li.onclick = () => {
           activeCategory = cat;
@@ -882,33 +1017,100 @@
         };
         categoryList.appendChild(li);
       });
+
+      // Update Select dropdown in add modal
+      const catSelect = document.getElementById('artist-cat-select');
+      catSelect.innerHTML = categories.length ? '' : '<option value="General">General</option>';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        catSelect.appendChild(opt);
+      });
     }
 
-    // Category CRUD
-    addCategoryBtn.addEventListener('click', () => {
-      const newCat = prompt('Enter new category name:');
-      if (newCat && newCat.trim() !== '') {
-        categories.push(newCat.trim());
-        renderCategories();
-      }
-    });
-
-    function editCategory(index) {
-      const currentName = categories[index];
-      const action = prompt(`Edit category "${currentName}":\nType a new name to RENAME, or type "DELETE" to delete.`, currentName);
-      
-      if (action === "DELETE") {
-        categories.splice(index, 1);
-        if (activeCategory === currentName) activeCategory = "All";
-      } else if (action && action.trim() !== "") {
-        categories[index] = action.trim();
-        if (activeCategory === currentName) activeCategory = action.trim();
-      }
+    function deleteCategory(index) {
+      const catName = categories[index];
+      categories.splice(index, 1);
+      if (activeCategory === catName) activeCategory = "All";
       renderCategories();
       renderCards();
     }
 
-    // --- 3. Render Photocard Collection ---
+    // Modal Control Logic
+    openAddArtistBtn.addEventListener('click', () => {
+      artistModal.classList.add('active');
+    });
+
+    closeArtistModalBtn.addEventListener('click', () => {
+      artistModal.classList.remove('active');
+    });
+
+    openAddCatBtn.addEventListener('click', () => {
+      categoryModal.classList.add('active');
+    });
+
+    closeCatModalBtn.addEventListener('click', () => {
+      categoryModal.classList.remove('active');
+    });
+
+    // Handle Form Submissions
+    categoryForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = document.getElementById('cat-name-input').value.trim();
+      if (val && !categories.includes(val)) {
+        categories.push(val);
+        renderCategories();
+      }
+      document.getElementById('cat-name-input').value = '';
+      categoryModal.classList.remove('active');
+    });
+
+    // Handle Direct File Upload + Form Submission
+    artistForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('artist-name-input').value.trim();
+      let category = document.getElementById('artist-cat-select').value;
+      const fileInput = document.getElementById('artist-img-file');
+      const series = document.getElementById('artist-series-input').value.trim() || 'Not specified';
+
+      if (!category) category = "General";
+      if (!categories.includes(category) && category !== "General") {
+        categories.push(category);
+      }
+
+      const saveArtistWithPhoto = (photoDataUrl) => {
+        const newArtist = {
+          id: Date.now(),
+          name,
+          category,
+          favorite: false,
+          photo: photoDataUrl,
+          discoverySeries: series
+        };
+
+        artists.push(newArtist);
+        renderCategories();
+        renderCards();
+
+        // Reset Form & Close Modal
+        artistForm.reset();
+        artistModal.classList.remove('active');
+      };
+
+      // Read local uploaded file if provided
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          saveArtistWithPhoto(evt.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        saveArtistWithPhoto(defaultPlaceholder);
+      }
+    });
+
+    // Render Photocards
     function renderCards() {
       cardsGrid.innerHTML = '';
 
@@ -919,7 +1121,12 @@
       });
 
       if (filtered.length === 0) {
-        cardsGrid.innerHTML = `<p style="grid-column: 1/-1; color: var(--text-muted); font-style: italic; padding: 20px 0;">No artists found in this collection view.</p>`;
+        cardsGrid.innerHTML = `
+          <div class="empty-state">
+            <h4 class="empty-state-title">No artists here yet</h4>
+            <p>Click on "+ Add Artist" above to add your first entry.</p>
+          </div>
+        `;
         return;
       }
 
@@ -930,7 +1137,7 @@
 
         card.innerHTML = `
           <div class="card-photo-wrapper">
-            <img class="card-photo" src="${artist.photo}" alt="${artist.name}">
+            <img class="card-photo" src="${artist.photo}" alt="${artist.name}" onerror="this.src='${defaultPlaceholder}'">
           </div>
           <div class="card-meta">
             <div class="card-info">
@@ -957,30 +1164,6 @@
       }
     }
 
-    // Add New Artist
-    addArtistBtn.addEventListener('click', () => {
-      const name = prompt('Artist Name:');
-      if (!name) return;
-      const category = prompt(`Category (${categories.join(', ')}):`, categories[0]) || "General";
-      const photo = prompt('Image URL (leave blank for default):') || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400';
-
-      const newArtist = {
-        id: Date.now(),
-        name,
-        category,
-        favorite: false,
-        photo,
-        discoverySeries: "Newly Discovered",
-        discoveryPoster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=150"
-      };
-
-      artists.push(newArtist);
-      if (!categories.includes(category)) categories.push(category);
-      renderCategories();
-      renderCards();
-    });
-
-    // Nav Tabs switching
     tabAll.addEventListener('click', () => {
       activeTab = 'all';
       tabAll.classList.add('active');
@@ -997,26 +1180,25 @@
       renderCards();
     });
 
-    // --- 4. Navigation & Artist Profile Page ---
     function showCollectionView() {
       viewArtist.classList.remove('active');
       viewCollection.classList.add('active');
     }
 
-    backBtn.addEventListener('click', () => {
-      showCollectionView();
-    });
+    backBtn.addEventListener('click', () => showCollectionView());
 
     function openArtistProfile(id) {
       selectedArtistId = id;
       const artist = artists.find(a => a.id === id);
       if (!artist) return;
 
-      document.getElementById('artist-profile-img').src = artist.photo;
+      const profileImg = document.getElementById('artist-profile-img');
+      profileImg.src = artist.photo;
+      profileImg.onerror = () => { profileImg.src = defaultPlaceholder; };
+
       document.getElementById('artist-profile-name').textContent = artist.name;
       document.getElementById('artist-profile-cat').textContent = artist.category;
-      document.getElementById('discovery-title').textContent = artist.discoverySeries;
-      document.getElementById('discovery-img').src = artist.discoveryPoster;
+      document.getElementById('discovery-title').textContent = artist.discoverySeries || 'Not specified';
 
       updateProfileFavBtn();
 
@@ -1038,12 +1220,17 @@
     }
 
     document.getElementById('profile-fav-btn').addEventListener('click', () => {
+      if (selectedArtistId) toggleFavorite(selectedArtistId);
+    });
+
+    document.getElementById('delete-artist-btn').addEventListener('click', () => {
       if (selectedArtistId) {
-        toggleFavorite(selectedArtistId);
+        artists = artists.filter(a => a.id !== selectedArtistId);
+        showCollectionView();
+        renderCards();
       }
     });
 
-    // --- 5. Notion-inspired Accordion Toggles ---
     document.querySelectorAll('.section-toggle').forEach(toggle => {
       toggle.addEventListener('click', () => {
         const section = toggle.parentElement;
@@ -1053,7 +1240,6 @@
       });
     });
 
-    // --- 6. Discovery Section Linker ---
     document.getElementById('update-series-btn').addEventListener('click', () => {
       const input = document.getElementById('series-input');
       const val = input.value.trim();
@@ -1067,7 +1253,7 @@
       }
     });
 
-    // --- INITIALIZE ---
+    // Initial render
     renderCategories();
     renderCards();
   </script>
